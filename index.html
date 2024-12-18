@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background: linear-gradient(to bottom, #100c1c, #1b1b2f, #3f0d5c);
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1d1d1d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #6a1b9a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8e44ad;
+        }
+
+        section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #100c1c;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: calc(100% - 800px);
+            max-width: 1800px;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-image {
+            width: 50px;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: rgb(228, 227, 227);
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #c0c0c0;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            background: url('./back.jpg') no-repeat center center/cover;
+        }
+
+        .hero-content .main-text {
+            font-size: 4rem;
+            background: linear-gradient(to right, #fcfcfc, #954ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content .sub-text {
+            margin: 20px 0;
+            color: #c0c0c0;
+        }
+
+        .cta-button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            color: white;
+            background: linear-gradient(45deg, purple, #6a1b9a);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(45deg, #6a1b9a, purple);
+        }
+
+        .future-section {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        .future-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .future-section p {
+            font-size: 1.2rem;
+            color: #c0c0c0;
+            line-height: 1.6;
+            padding: 0 100px;
+        }
+
+        .cards-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #2c2c54;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: rotateY(360deg);
+            box-shadow: 0px 6px 12px rgba(255, 0, 255, 0.7);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border-radius: 10px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .faq-section {
+            background: linear-gradient(to bottom, #100c1c, #1b1b2f, #3f0d5c);
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #954ddd;
+        }
+
+        .faq {
+            width: 100%;
+            background-color: #1b1b2f;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq summary {
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .faq summary:hover {
+            background: #2c2c54;
+        }
+
+        .faq p {
+            padding: 0 20px 15px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c0c0c0;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll("section");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach((section) => observer.observe(section));
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="My Logo" class="logo-image">
+            </div>
+            <div class="nav-links">
+                <a href="#">Agent</a>
+                <a href="#">Block</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="main-text">Blockchain is our future</h1>
+            <p class="sub-text">The Path to our future</p>
+            <button class="cta-button">Learn More</button>
+        </div>
+    </section>
+
+    <section class="future-section">
+        <h2>Meet your Future now</h2>
+        <p>Step into a world of possibilities. Explore the limitless potential of blockchain technology and shape the future you envision. This is your moment to innovate and lead the way forward.</p>
+    </section>
+
+    <section class="cards-section">
+        <div class="card">
+            <h3>Card 1</h3>
+            <p>Description of Card 1.</p>
+        </div>
+        <div class="card">
+            <h3>Card 2</h3>
+            <p>Description of Card 2.</p>
+        </div>
+        <div class="card">
+            <h3>Card 3</h3>
+            <p>Description of Card 3.</p>
+        </div>
+        <div class="card">
+            <h3>Card 4</h3>
+            <p>Description of Card 4.</p>
+        </div>
+        <div class="card">
+            <h3>Card 5</h3>
+            <p>Description of Card 5.</p>
+        </div>
+        <div class="card">
+            <h3>Card 6</h3>
+            <p>Description of Card 6.</p>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <h2>FAQs</h2>
+        <details class="faq">
+            <summary>What are 6 AI, and how do they work?</summary>
+            <p>6 AI are advanced digital agents designed to perform specific tasks with automation and intelligence.</p>
+        </details>
+        <details class="faq">
+            <summary>Are the 6 AI suitable for beginners?</summary>
+            <p>Yes, they are designed to be user-friendly, with intuitive interfaces for beginners.</p>
+        </details>
+        <details class="faq">
+            <summary>Can I use multiple agents at the same time?</summary>
+            <p>Absolutely! You can use multiple AI agents concurrently for different tasks.</p>
+        </details>
+        <details class="faq">
+            <summary>Do I need technical expertise to use the agents?</summary>
+            <p>No technical expertise is required; the agents are easy to set up and use.</p>
+        </details>
+        <details class="faq">
+            <summary>How do the 6 AI ensure data security?</summary>
+            <p>Data security is ensured through advanced encryption and privacy protocols.</p>
+        </details>
+    </section>
+</body>
+</html>
